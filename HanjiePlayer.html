@@ -1,0 +1,110 @@
+<html>
+	<head>
+		<title>Hanjie Player</title>
+		<script
+		 	src="https://code.jquery.com/jquery-3.1.1.min.js"
+		  	integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+		  	crossorigin="anonymous">
+		</script>
+	</head>
+	<body>
+
+		<script>
+			$(window).ready(function(){
+				$("td:not(.clue)").each(function(index, cell){
+					$(cell).toggleClass( "unknown" );
+					$(cell).click(function(){
+						changeStatus($(cell));
+					})
+				});
+			})
+
+			function changeStatus(cell){
+				if (cell.hasClass("unknown")){
+					cell.toggleClass( "unknown full" );
+				} else if(cell.hasClass("full")){
+					cell.toggleClass( "full empty" );
+				} else if(cell.hasClass("empty")){
+					cell.toggleClass( "empty unknown" );
+				} else {
+					cell.toggleClass( "unknown" );
+				}
+			}
+		</script>
+
+
+		<table>
+			<tr>
+				<td class="clue"></td>
+				<td class="clue">1</td>
+				<td class="clue">1 1</td>
+				<td class="clue">1</td>
+				<td class="clue">1 1</td>
+				<td class="clue">1</td>
+			</tr>
+			<tr>
+				<td class="clue"></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td class="clue">1 1</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td class="clue"></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td class="clue">1 1</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td class="clue">3</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+
+		<style>
+
+			td{
+				border: solid 1px black;
+				padding: 0;
+				width: 10px;
+				height: 10px;
+				cursor: pointer;
+			}
+
+			.unknown{
+				background-color: grey;
+			}
+
+			.full{
+				background-color: black;
+			}
+
+			.empty{
+				background-color: white;
+			}
+		</style>
+	</body>
+</html>
