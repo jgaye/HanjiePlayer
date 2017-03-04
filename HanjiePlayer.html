@@ -6,6 +6,7 @@
 		  	integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
 		  	crossorigin="anonymous">
 		</script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 	</head>
 	<body>
 
@@ -35,63 +36,80 @@
 
 		<table>
 			<tr>
-				<td class="clue"></td>
-				<td class="clue">1</td>
-				<td class="clue">1 1</td>
-				<td class="clue">1</td>
-				<td class="clue">1 1</td>
-				<td class="clue">1</td>
+				<td class="clue"><div class="content"></div></td>
+				<td class="clue"><div class="content">3</div></td>
+				<td class="clue"><div class="content">1<br>1</div></td>
+				<td class="clue"><div class="content">1<br>1</div></td>
+				<td class="clue"><div class="content">1<br>1</div></td>
+				<td class="clue"><div class="content">3</div></td>
 			</tr>
 			<tr>
-				<td class="clue"></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<td class="clue"><div class="content">3</div></td>
+				<td><div class="content"></div></td>
+				<td><div class="content"></div></td>
+				<td><div class="content"></div></td>
+				<td><div class="content"></div></td>
+				<td><div class="content"></div></td>
 			</tr>
 			<tr>
-				<td class="clue">1 1</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<td class="clue"><div class="content">1 1</div></td>
+				<td><div class="content"></div></td>
+				<td><div class="content"></div></td>
+				<td><div class="content"></div></td>
+				<td><div class="content"></div></td>
+				<td><div class="content"></div></td>
 			</tr>
 			<tr>
-				<td class="clue"></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<td class="clue"><div class="content">1 1</div></td>
+				<td><div class="content"></div></td>
+				<td><div class="content"></div></td>
+				<td><div class="content"></div></td>
+				<td><div class="content"></div></td>
+				<td><div class="content"></div></td>
 			</tr>
 			<tr>
-				<td class="clue">1 1</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<td class="clue"><div class="content">1 1</div></td>
+				<td><div class="content"></div></td>
+				<td><div class="content"></div></td>
+				<td><div class="content"></div></td>
+				<td><div class="content"></div></td>
+				<td><div class="content"></div></td>
 			</tr>
 			<tr>
-				<td class="clue">3</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<td class="clue"><div class="content">3</div></td>
+				<td><div class="content"></div></td>
+				<td><div class="content"></div></td>
+				<td><div class="content"></div></td>
+				<td><div class="content"></div></td>
+				<td><div class="content"></div></td>
 			</tr>
 		</table>
 
 		<style>
 
+			table{
+				border-collapse: collapse;
+				width: 90%;
+			}
+
 			td{
 				border: solid 1px black;
-				padding: 0;
-				width: 10px;
-				height: 10px;
 				cursor: pointer;
+  				position: relative;
+			}
+
+			td:after {
+			  	content: '';
+			  	display: block;
+			  	margin-top: 100%;
+			}
+
+			td .content{
+			  	position: absolute;
+			  	top: 0;
+			  	bottom: 0;
+			  	left: 0;
+			  	right: 0;
 			}
 
 			.unknown{
