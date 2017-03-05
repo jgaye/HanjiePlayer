@@ -12,6 +12,8 @@
 
 		<script>
 
+			var savedGrid = [];
+
 			var vertical = [[1],[1],[19],[2,2,1],[4,1,2],[2,1,2,1],[2,2,1,8,1],[2,1,2,2,3],[2,4,2,4,3],[3,1,2,6,2],[2,3,1,3,3,1],[2,1,1,1,2,2,1],[2,3,1,2,1,1],[2,1,1,1,2,2,1],[1,3,2,5,2],[1,1,1,2,2],[1,3,1,2,5],[1,1,1,1,9,2],[1,3,2,7,2],[1,1,2,3],[1,1,2,1,1],[2,1,8,1],[2,2,1],[6,1],[5,1,2],[2,3,1,1],[2,5,1],[2,3,2,1],[2,22],[5,18],[4,18],[2,1,1],[22],[1],[1]];
 			var horizontal = [[4,5],[6,7],[3,5,1,2],[24,6],[1,1,1,1,12],[2,1,2,9,6,1],[9,1,1,1,1,1,1,1,1],[1,14,7],[1,9,1],[1,6,3,3,1],[1,2,2,2,3,1],[1,2,2,2,3,1],[1,2,3,2,2,3,1],[1,1,5,2,1,3,1],[1,1,3,2,2,1,3,1],[1,1,2,1,2,1,3,1],[1,1,2,1,2,1,3,1],[1,1,3,1,2,1,3,1],[1,1,3,2,2,1,3,1],[3,2,4,3,1,3,1],[3,2,2,1,3,1],[6,3,1,3,1],[12,3,1],[9,3,3],[9]];
 
@@ -43,7 +45,7 @@
 				})
 
 
-				$("td:not(.clue)").each(function(index, cell){
+				$("#contentTable td:not(.clue)").each(function(index, cell){
 					$(cell).toggleClass( "unknown" );
 					$(cell).click(function(){
 						changeStatus($(cell));
@@ -66,20 +68,30 @@
 				}
 			}
 
-			function saveGrid(cell){
-				if (cell.hasClass("unknown")){
-					cell.toggleClass( "unknown full" );
-				} else if(cell.hasClass("full")){
-					cell.toggleClass( "full empty" );
-				} else if(cell.hasClass("empty")){
-					cell.toggleClass( "empty unknown" );
-				} else {
-					cell.toggleClass( "unknown" );
-				}
+			function saveGrid(){
+				savedGrid = [];
+				$("#contentTable tr").each(function(indexRow, row){
+					var savedRow =[];
+					$(row).find("td").each(function(indexCell, cell){
+						savedRow.push(cell.className);
+					})
+					savedGrid.push(savedRow);
+				})
+				$("#log").html('Grid saved');
+			}
+
+			function loadGrid(){
+				$("#contentTable tr").each(function(indexRow, row){
+					$(row).find("td").each(function(indexCell, cell){
+						$(cell).removeClass();
+						$(cell).toggleClass(savedGrid[indexRow][indexCell]);
+					})
+				})
+				$("#log").html('Grid loaded');
 			}
 
 			function cleanGrid(){
-				$("td:not(.clue)").each(function(index, cell){
+				$("#contentTable td:not(.clue)").each(function(index, cell){
 					$(cell).removeClass();
 					$(cell).toggleClass( "unknown" );
 				})
@@ -88,7 +100,7 @@
 		</script>
 
 		<button onclick="saveGrid();" type="button">Save Grid</button>
-		<button type="button">Load Grid</button>
+		<button onclick="loadGrid();" type="button">Load Grid</button>
 		<button onclick="cleanGrid();" type="button">Clean Grid</button>
 		<br>
 		
