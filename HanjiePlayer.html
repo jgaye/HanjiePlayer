@@ -16,6 +16,10 @@
 			var horizontal = [[4,5],[6,7],[3,5,1,2],[24,6],[1,1,1,1,12],[2,1,2,9,6,1],[9,1,1,1,1,1,1,1,1],[1,14,7],[1,9,1],[1,6,3,3,1],[1,2,2,2,3,1],[1,2,2,2,3,1],[1,2,3,2,2,3,1],[1,1,5,2,1,3,1],[1,1,3,2,2,1,3,1],[1,1,2,1,2,1,3,1],[1,1,2,1,2,1,3,1],[1,1,3,1,2,1,3,1],[1,1,3,2,2,1,3,1],[3,2,4,3,1,3,1],[3,2,2,1,3,1],[6,3,1,3,1],[12,3,1],[9,3,3],[9]];
 
 			$(window).ready(function(){
+				buildGrid();
+			})
+
+			function buildGrid(){
 				//Create the first row of clues
 				// var firstRow = $("<tr>");
 
@@ -45,7 +49,10 @@
 						changeStatus($(cell));
 					})
 				});
-			})
+
+
+				$("#log").html('Grid built');
+			}
 
 			function changeStatus(cell){
 				if (cell.hasClass("unknown")){
@@ -58,7 +65,34 @@
 					cell.toggleClass( "unknown" );
 				}
 			}
+
+			function saveGrid(cell){
+				if (cell.hasClass("unknown")){
+					cell.toggleClass( "unknown full" );
+				} else if(cell.hasClass("full")){
+					cell.toggleClass( "full empty" );
+				} else if(cell.hasClass("empty")){
+					cell.toggleClass( "empty unknown" );
+				} else {
+					cell.toggleClass( "unknown" );
+				}
+			}
+
+			function cleanGrid(){
+				$("td:not(.clue)").each(function(index, cell){
+					$(cell).removeClass();
+					$(cell).toggleClass( "unknown" );
+				})
+				$("#log").html('Grid cleaned');
+			}
 		</script>
+
+		<button onclick="saveGrid();" type="button">Save Grid</button>
+		<button type="button">Load Grid</button>
+		<button onclick="cleanGrid();" type="button">Clean Grid</button>
+		<br>
+		
+		<p id="log"></p>
 
 		<table id="contentTable">
 		</table>
@@ -94,8 +128,16 @@
 				border-right: solid 1px black;
 			}
 
+			td:nth-child(1){
+				border-left: solid 1px black;
+			}
+
 			tr:nth-child(5n) td{
 				border-bottom: solid 1px black;
+			}
+
+			tr:nth-child(1) td{
+				border-top: solid 1px black;
 			}
 
 			.unknown{
