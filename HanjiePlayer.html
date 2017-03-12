@@ -28,7 +28,7 @@
 					value:50,
 					slide: function( event, ui ) {
 						//Zoom the grid with a zoom of 1 achieved for a slider value of 50
-						$('#contentTable').css({ transform: 'scale(' + (1+(ui.value-50)/100) + ')' });
+						$('#playGrid').css({ transform: 'scale(' + (1+(ui.value-50)/100) + ')' });
 					}
 				});
 			})
@@ -44,7 +44,7 @@
 				// 	firstRow.append(clueCell);
 				// })
 
-				// $("#contentTable").append(firstRow);
+				// $("#playGrid").append(firstRow);
 
 				//Create all subsequent rows with horizontal clues
 				horizontal.forEach(function(clue,index){
@@ -53,11 +53,11 @@
 					for (var i = vertical.length - 1; i >= 0; i--) {
 						row.append($("<td>").append($("<div>").addClass("content")))
 					};
-					$("#contentTable").append(row);
+					$("#playGrid").append(row);
 				})
 
 
-				$("#contentTable td:not(.clue)").each(function(index, cell){
+				$("#playGrid td:not(.clue)").each(function(index, cell){
 					$(cell).toggleClass( "unknown" );
 					$(cell).click(function(){
 						changeStatus($(cell));
@@ -82,7 +82,7 @@
 
 			function saveGrid(){
 				savedGrid = [];
-				$("#contentTable tr").each(function(indexRow, row){
+				$("#playGrid tr").each(function(indexRow, row){
 					var savedRow =[];
 					$(row).find("td").each(function(indexCell, cell){
 						savedRow.push(cell.className);
@@ -93,7 +93,7 @@
 			}
 
 			function loadGrid(){
-				$("#contentTable tr").each(function(indexRow, row){
+				$("#playGrid tr").each(function(indexRow, row){
 					$(row).find("td").each(function(indexCell, cell){
 						$(cell).removeClass();
 						$(cell).toggleClass(savedGrid[indexRow][indexCell]);
@@ -103,7 +103,7 @@
 			}
 
 			function cleanGrid(){
-				$("#contentTable td:not(.clue)").each(function(index, cell){
+				$("#playGrid td:not(.clue)").each(function(index, cell){
 					$(cell).removeClass();
 					$(cell).toggleClass( "unknown" );
 				})
@@ -120,7 +120,7 @@
 		
 		<p id="log"></p>
 
-		<table id="contentTable">
+		<table id="playGrid">
 		</table>
 
 		<style>
@@ -142,62 +142,59 @@
 						width: 100px;
 					}
 
-				#contentTable{
+				#playGrid{
 					transform-origin: top left;
-				}
-
-				table{
 					border-collapse: collapse;
 					width: 90%;
 				}
 
-				td{
-					border: dotted 1px white;
-					cursor: pointer;
-	  				position: relative;
-				}
+					#playGrid td{
+						border: dotted 1px white;
+						cursor: pointer;
+		  				position: relative;
+					}
 
-				td:after {
-				  	content: '';
-				  	display: block;
-				  	margin-top: 100%;
-				}
+					#playGrid td:after {
+					  	content: '';
+					  	display: block;
+					  	margin-top: 100%;
+					}
 
-				td .content{
-				  	position: absolute;
-				  	top: 0;
-				  	bottom: 0;
-				  	left: 0;
-				  	right: 0;
-				}
+					#playGrid td .content{
+					  	position: absolute;
+					  	top: 0;
+					  	bottom: 0;
+					  	left: 0;
+					  	right: 0;
+					}
 
-				td:nth-child(5n){
-					border-right: solid 1px black;
-				}
+					#playGrid td:nth-child(5n){
+						border-right: solid 1px black;
+					}
 
-				td:nth-child(1){
-					border-left: solid 1px black;
-				}
+					#playGrid td:nth-child(1){
+						border-left: solid 1px black;
+					}
 
-				tr:nth-child(5n) td{
-					border-bottom: solid 1px black;
-				}
+					#playGrid tr:nth-child(5n) td{
+						border-bottom: solid 1px black;
+					}
 
-				tr:nth-child(1) td{
-					border-top: solid 1px black;
-				}
+					#playGrid tr:nth-child(1) td{
+						border-top: solid 1px black;
+					}
 
-				.unknown{
-					background-color: silver;
-				}
+					#playGrid td.unknown{
+						background-color: silver;
+					}
 
-				.full{
-					background-color: black;
-				}
+					#playGrid td.full{
+						background-color: black;
+					}
 
-				.empty{
-					background-color: white;
-				}
+					#playGrid td.empty{
+						background-color: white;
+					}
 		</style>
 	</body>
 </html>
