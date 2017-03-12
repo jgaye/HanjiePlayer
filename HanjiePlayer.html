@@ -22,7 +22,13 @@
 
 			$(window).ready(function(){
 				buildGrid();
-				$( "#slider" ).slider({value:50});
+				$( "#slider" ).slider({
+					value:50,
+					slide: function( event, ui ) {
+						//Zoom the grid with a zoom of 1 achieved for a slider value of 50
+						$('#contentTable').css({ transform: 'scale(' + (1+(ui.value-50)/100) + ')' });
+					}
+				});
 			})
 
 			function buildGrid(){
@@ -133,6 +139,10 @@
 					#slider{
 						width: 100px;
 					}
+
+				#contentTable{
+					transform-origin: top left;
+				}
 
 				table{
 					border-collapse: collapse;
