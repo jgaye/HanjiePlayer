@@ -6,7 +6,10 @@
 		  	integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
 		  	crossorigin="anonymous">
 		</script>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	</head>
 	<body>
 
@@ -19,6 +22,7 @@
 
 			$(window).ready(function(){
 				buildGrid();
+				$( "#slider" ).slider({value:50});
 			})
 
 			function buildGrid(){
@@ -99,10 +103,12 @@
 			}
 		</script>
 
-		<button onclick="saveGrid();" type="button">Save Grid</button>
-		<button onclick="loadGrid();" type="button">Load Grid</button>
-		<button onclick="cleanGrid();" type="button">Clean Grid</button>
-		<br>
+		<div id="commandCenter">
+			<button class="btn btn-default" onclick="saveGrid();" type="button">Save Grid</button>
+			<button class="btn btn-default" onclick="loadGrid();" type="button">Load Grid</button>
+			<button class="btn btn-default" onclick="cleanGrid();" type="button">Clean Grid</button>
+			<label>Zoom: <div id="slider"></div></label>
+		</div>
 		
 		<p id="log"></p>
 
@@ -111,58 +117,75 @@
 
 		<style>
 
-			table{
-				border-collapse: collapse;
-				width: 90%;
+			body{
+				margin: 10px;
 			}
 
-			td{
-				border: dotted 1px white;
-				cursor: pointer;
-  				position: relative;
-			}
+				#commandCenter{
+					display: flex;
+				    align-items: center;
+					margin: 10px 0;
+				}
+				#commandCenter > * {
+				    margin: 0 10px;
+				}
 
-			td:after {
-			  	content: '';
-			  	display: block;
-			  	margin-top: 100%;
-			}
+					#slider{
+						width: 100px;
+					}
 
-			td .content{
-			  	position: absolute;
-			  	top: 0;
-			  	bottom: 0;
-			  	left: 0;
-			  	right: 0;
-			}
+				table{
+					border-collapse: collapse;
+					width: 90%;
+				}
 
-			td:nth-child(5n){
-				border-right: solid 1px black;
-			}
+				td{
+					border: dotted 1px white;
+					cursor: pointer;
+	  				position: relative;
+				}
 
-			td:nth-child(1){
-				border-left: solid 1px black;
-			}
+				td:after {
+				  	content: '';
+				  	display: block;
+				  	margin-top: 100%;
+				}
 
-			tr:nth-child(5n) td{
-				border-bottom: solid 1px black;
-			}
+				td .content{
+				  	position: absolute;
+				  	top: 0;
+				  	bottom: 0;
+				  	left: 0;
+				  	right: 0;
+				}
 
-			tr:nth-child(1) td{
-				border-top: solid 1px black;
-			}
+				td:nth-child(5n){
+					border-right: solid 1px black;
+				}
 
-			.unknown{
-				background-color: silver;
-			}
+				td:nth-child(1){
+					border-left: solid 1px black;
+				}
 
-			.full{
-				background-color: black;
-			}
+				tr:nth-child(5n) td{
+					border-bottom: solid 1px black;
+				}
 
-			.empty{
-				background-color: white;
-			}
+				tr:nth-child(1) td{
+					border-top: solid 1px black;
+				}
+
+				.unknown{
+					background-color: silver;
+				}
+
+				.full{
+					background-color: black;
+				}
+
+				.empty{
+					background-color: white;
+				}
 		</style>
 	</body>
 </html>
