@@ -22,6 +22,8 @@
 
 			$(window).ready(function(){
 				buildGrid();
+
+				//Slider to zoom in and out of the grid
 				$( "#slider" ).slider({
 					value:50,
 					slide: function( event, ui ) {
