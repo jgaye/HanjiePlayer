@@ -50,9 +50,9 @@
 
 				//Create all subsequent rows with horizontal clues
 				horizontal.forEach(function(clue,index){
-					horizontalCluesRow = $("<tr>").height('31px');
+					horizontalCluesRow = $("<tr>");
 					clue.forEach(function(value){
-						horizontalCluesRow.append($("<td>").addClass("clue").html(value));
+						horizontalCluesRow.append($("<td>").addClass("clue").html(value))
 					});
 					$("#horizontalClues").append(horizontalCluesRow);
 
@@ -63,7 +63,7 @@
 					$("#playGrid").append(gridRow);
 				})
 
-
+				//Change the status of a grid cell on click action
 				$("#playGrid td:not(.clue)").each(function(index, cell){
 					$(cell).toggleClass( "unknown" );
 					$(cell).click(function(){
@@ -71,6 +71,12 @@
 					})
 				});
 
+				//Strikethrough a clue cell on click
+				$(".clue").each(function(index, cell){
+					$(cell).click(function(){
+						$(cell).toggleClass("strikediag");
+					})
+				});
 
 				$("#log").html('Grid built');
 			}
@@ -168,6 +174,10 @@
 			  				/*magic numbers*/
 			  				width: 30px;
 		  				    height: 32px;
+						}
+
+						.strikediag {
+						  	background: linear-gradient(to left top, transparent 47.75%, currentColor 49.5%, currentColor 50.5%, transparent 52.25%);
 						}
 
 					#playGrid{
