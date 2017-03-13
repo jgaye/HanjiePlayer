@@ -32,6 +32,8 @@
 						//Scalind down to 50% of the riginal size
 						$('#playGrid').css({ transform: 'scale(' + (ui.value/100) + ')' });
 						//Same for the clues
+						$('#paddingClues').css({ transform: 'scale(' + (ui.value/100) + ')' });
+						$('#verticalClues').css({ transform: 'scale(' + (ui.value/100) + ')' });
 						$('#horizontalClues').css({ transform: 'scale(' + (ui.value/100) + ')' });
 					}
 				});
@@ -211,7 +213,7 @@
 						line-height: 32.05px;
 					}
 
-						.clue .strikediag {
+						.clue.strikediag {
 						  	background: linear-gradient(to left top, transparent 47.75%, currentColor 49.5%, currentColor 50.5%, transparent 52.25%);
 						}
 
