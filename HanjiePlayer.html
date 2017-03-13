@@ -38,15 +38,42 @@
 			})
 
 			function buildGrid(){
+
+				//Create the padding zone to set he clues and grid positon
+				var verticalCluesMaxLength = 0;
+				vertical.forEach(function(clue){
+					if (clue.length > verticalCluesMaxLength){
+						verticalCluesMaxLength=clue.length;
+					}
+				})
+				var horizontalCluesMaxLength = 0;
+				horizontal.forEach(function(clue){
+					if (clue.length > horizontalCluesMaxLength){
+						horizontalCluesMaxLength=clue.length;
+					}
+				})
+
+				for (var i = verticalCluesMaxLength - 1; i >= 0; i--) {
+					paddingRow = $("<div>").addClass("clueRow");
+					for (var j = horizontalCluesMaxLength - 1; j >= 0; j--) {
+						paddingRow.append($("<div>").addClass("clue"));
+					};
+					$("#paddingClues").append(paddingRow);
+				};
+
+
 				//Create the first row of clues
 				// var firstRow = $("<tr>");
 
 				// firstRow.append($("<td>").addClass("clue").append($("<div>").addClass("content")));
 
-				// vertical.forEach(function(clue,index){
-				// 	var clueCell = $("<td>").addClass("clue").append($("<div>").addClass("content").html(clue.join("<br>")))
-				// 	firstRow.append(clueCell);
-				// })
+				vertical.forEach(function(clue,index){
+					horizontalCluesColumn = $("<div>").addClass("clueColumn");
+					clue.forEach(function(value){
+						horizontalCluesColumn.append($("<div>").addClass("clue").html(value))
+					});
+					$("#verticalClues").append(horizontalCluesColumn);
+				})
 
 				// $("#playGrid").append(firstRow);
 
@@ -136,8 +163,14 @@
 		<p id="log"></p>
 
 		<div id="tablesContainer">
-			<div id="horizontalClues"></div>
-			<table id="playGrid"></table>
+			<div>
+				<div id="paddingClues"></div>
+				<div id="verticalClues"></div>
+			</div>
+			<div>
+				<div id="horizontalClues"></div>
+				<table id="playGrid"></table>
+			</div>
 		</div>
 
 		<style>
@@ -161,86 +194,124 @@
 
 				#tablesContainer{
 				    display: flex;
+				    flex-direction: column;
 				}
 
-					#horizontalClues{
+					#tablesContainer>div{
+					    display: flex;
+					}
+
+					.clue{
+						border: solid 1px black;
+						cursor: pointer;
+		  				text-align: center;
+		  				/*magic numbers*/
+		  				width: 32px;
+	  				    height: 32.05px;
+						line-height: 32.05px;
+					}
+
+						.clue .strikediag {
+						  	background: linear-gradient(to left top, transparent 47.75%, currentColor 49.5%, currentColor 50.5%, transparent 52.25%);
+						}
+
+					#paddingClues{
 						display: flex;
 						flex-direction: column;
-						transform-origin: top right;
+						justify-content: flex-end;
+						transform-origin: bottom right;
 					}
-						#horizontalClues .clueRow{
+						#paddingClues .clueRow{
 							display: flex;
 							flex-direction: row;
 							justify-content: flex-end;
 						}
 
-							#horizontalClues .clue{
-								border: solid 1px black;
-								cursor: pointer;
-				  				text-align: center;
-				  				/*magic numbers*/
-				  				width: 30px;
-			  				    height: 32.05px;
-    							line-height: 32.05px;
+							#paddingClues .clue{
+								border: none;
 							}
 
-						.strikediag {
-						  	background: linear-gradient(to left top, transparent 47.75%, currentColor 49.5%, currentColor 50.5%, transparent 52.25%);
-						}
-
-					#playGrid{
-						transform-origin: top left;
-						border-collapse: collapse;
-						width: 90%;
+					#verticalClues{
+						display: flex;
+						flex-direction: row;
+						justify-content: flex-end;
+						transform-origin: bottom left;
 					}
 
-						#playGrid td{
-							border: dotted 1px white;
-							cursor: pointer;
-			  				position: relative;
+						#verticalClues .clueColumn{
+							display: flex;
+							flex-direction: column;
+							justify-content: flex-end;
 						}
 
-						#playGrid td:after {
-						  	content: '';
-						  	display: block;
-						  	margin-top: 100%;
+					#horizontalContainer{
+						display: flex;
+					}
+
+						#horizontalClues{
+							display: flex;
+							flex-direction: column;
+							transform-origin: top right;
+						}
+							#horizontalClues .clueRow{
+								display: flex;
+								flex-direction: row;
+								justify-content: flex-end;
+							}
+
+						#playGrid{
+							transform-origin: top left;
+							border-collapse: collapse;
+							width: 90%;
 						}
 
-						#playGrid td .content{
-						  	position: absolute;
-						  	top: 0;
-						  	bottom: 0;
-						  	left: 0;
-						  	right: 0;
-						}
+							#playGrid td{
+								border: dotted 1px white;
+								cursor: pointer;
+				  				position: relative;
+							}
 
-						#playGrid td:nth-child(5n){
-							border-right: solid 1px black;
-						}
+							#playGrid td:after {
+							  	content: '';
+							  	display: block;
+							  	margin-top: 100%;
+							}
 
-						#playGrid td:nth-child(1){
-							border-left: solid 1px black;
-						}
+							#playGrid td .content{
+							  	position: absolute;
+							  	top: 0;
+							  	bottom: 0;
+							  	left: 0;
+							  	right: 0;
+							}
 
-						#playGrid tr:nth-child(5n) td{
-							border-bottom: solid 1px black;
-						}
+							#playGrid td:nth-child(5n){
+								border-right: solid 1px black;
+							}
 
-						#playGrid tr:nth-child(1) td{
-							border-top: solid 1px black;
-						}
+							#playGrid td:nth-child(1){
+								border-left: solid 1px black;
+							}
 
-						#playGrid td.unknown{
-							background-color: silver;
-						}
+							#playGrid tr:nth-child(5n) td{
+								border-bottom: solid 1px black;
+							}
 
-						#playGrid td.full{
-							background-color: black;
-						}
+							#playGrid tr:nth-child(1) td{
+								border-top: solid 1px black;
+							}
 
-						#playGrid td.empty{
-							background-color: white;
-						}
+							#playGrid td.unknown{
+								background-color: silver;
+							}
+
+							#playGrid td.full{
+								background-color: black;
+							}
+
+							#playGrid td.empty{
+								background-color: white;
+							}
 		</style>
 	</body>
 </html>
