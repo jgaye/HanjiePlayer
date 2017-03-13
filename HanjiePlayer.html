@@ -50,9 +50,9 @@
 
 				//Create all subsequent rows with horizontal clues
 				horizontal.forEach(function(clue,index){
-					horizontalCluesRow = $("<tr>");
+					horizontalCluesRow = $("<div>").addClass("clueRow");
 					clue.forEach(function(value){
-						horizontalCluesRow.append($("<td>").addClass("clue").html(value))
+						horizontalCluesRow.append($("<div>").addClass("clue").html(value))
 					});
 					$("#horizontalClues").append(horizontalCluesRow);
 
@@ -134,7 +134,7 @@
 		<p id="log"></p>
 
 		<div id="tablesContainer">
-			<table id="horizontalClues"></table>
+			<div id="horizontalClues"></div>
 			<table id="playGrid"></table>
 		</div>
 
@@ -162,19 +162,25 @@
 				}
 
 					#horizontalClues{
-						border-collapse: collapse;
-						transform-origin: top left;
+						display: flex;
+						flex-direction: column;
+						transform-origin: top right;
 					}
-
-						#horizontalClues td{
-							border: solid 1px black;
-							cursor: pointer;
-			  				position: relative;	
-			  				text-align: center;
-			  				/*magic numbers*/
-			  				width: 30px;
-		  				    height: 32px;
+						#horizontalClues .clueRow{
+							display: flex;
+							flex-direction: row;
+							justify-content: flex-end;
 						}
+
+							#horizontalClues .clue{
+								border: solid 1px black;
+								cursor: pointer;
+				  				text-align: center;
+				  				/*magic numbers*/
+				  				width: 30px;
+			  				    height: 32.05px;
+    							line-height: 32.05px;
+							}
 
 						.strikediag {
 						  	background: linear-gradient(to left top, transparent 47.75%, currentColor 49.5%, currentColor 50.5%, transparent 52.25%);
