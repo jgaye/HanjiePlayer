@@ -29,6 +29,8 @@
 					slide: function( event, ui ) {
 						//Zoom the grid with a zoom of 1 achieved for a slider value of 50
 						$('#playGrid').css({ transform: 'scale(' + (1+(ui.value-50)/100) + ')' });
+						//Same for the clues
+						$('#horizontalClues').css({ transform: 'scale(' + (1+(ui.value-50)/100) + ')' });
 					}
 				});
 			})
@@ -48,12 +50,17 @@
 
 				//Create all subsequent rows with horizontal clues
 				horizontal.forEach(function(clue,index){
-					row = $("<tr>");
-					// row.append($("<td>").addClass("clue").append($("<div>").addClass("content").html(clue.join(" "))));
+					horizontalCluesRow = $("<tr>").height('31px');
+					clue.forEach(function(value){
+						horizontalCluesRow.append($("<td>").addClass("clue").html(value));
+					});
+					$("#horizontalClues").append(horizontalCluesRow);
+
+					gridRow = $("<tr>");
 					for (var i = vertical.length - 1; i >= 0; i--) {
-						row.append($("<td>").append($("<div>").addClass("content")))
+						gridRow.append($("<td>").append($("<div>").addClass("content")));
 					};
-					$("#playGrid").append(row);
+					$("#playGrid").append(gridRow);
 				})
 
 
@@ -120,8 +127,10 @@
 		
 		<p id="log"></p>
 
-		<table id="playGrid">
-		</table>
+		<div id="tablesContainer">
+			<table id="horizontalClues"></table>
+			<table id="playGrid"></table>
+		</div>
 
 		<style>
 
@@ -142,59 +151,78 @@
 						width: 100px;
 					}
 
-				#playGrid{
-					transform-origin: top left;
-					border-collapse: collapse;
-					width: 90%;
+				#tablesContainer{
+				    display: flex;
 				}
 
-					#playGrid td{
-						border: dotted 1px white;
-						cursor: pointer;
-		  				position: relative;
+					#horizontalClues{
+						border-collapse: collapse;
+						transform-origin: top left;
 					}
 
-					#playGrid td:after {
-					  	content: '';
-					  	display: block;
-					  	margin-top: 100%;
+						#horizontalClues td{
+							border: solid 1px black;
+							cursor: pointer;
+			  				position: relative;	
+			  				text-align: center;
+			  				/*magic numbers*/
+			  				width: 30px;
+		  				    height: 32px;
+						}
+
+					#playGrid{
+						transform-origin: top left;
+						border-collapse: collapse;
+						width: 90%;
 					}
 
-					#playGrid td .content{
-					  	position: absolute;
-					  	top: 0;
-					  	bottom: 0;
-					  	left: 0;
-					  	right: 0;
-					}
+						#playGrid td{
+							border: dotted 1px white;
+							cursor: pointer;
+			  				position: relative;
+						}
 
-					#playGrid td:nth-child(5n){
-						border-right: solid 1px black;
-					}
+						#playGrid td:after {
+						  	content: '';
+						  	display: block;
+						  	margin-top: 100%;
+						}
 
-					#playGrid td:nth-child(1){
-						border-left: solid 1px black;
-					}
+						#playGrid td .content{
+						  	position: absolute;
+						  	top: 0;
+						  	bottom: 0;
+						  	left: 0;
+						  	right: 0;
+						}
 
-					#playGrid tr:nth-child(5n) td{
-						border-bottom: solid 1px black;
-					}
+						#playGrid td:nth-child(5n){
+							border-right: solid 1px black;
+						}
 
-					#playGrid tr:nth-child(1) td{
-						border-top: solid 1px black;
-					}
+						#playGrid td:nth-child(1){
+							border-left: solid 1px black;
+						}
 
-					#playGrid td.unknown{
-						background-color: silver;
-					}
+						#playGrid tr:nth-child(5n) td{
+							border-bottom: solid 1px black;
+						}
 
-					#playGrid td.full{
-						background-color: black;
-					}
+						#playGrid tr:nth-child(1) td{
+							border-top: solid 1px black;
+						}
 
-					#playGrid td.empty{
-						background-color: white;
-					}
+						#playGrid td.unknown{
+							background-color: silver;
+						}
+
+						#playGrid td.full{
+							background-color: black;
+						}
+
+						#playGrid td.empty{
+							background-color: white;
+						}
 		</style>
 	</body>
 </html>
