@@ -25,45 +25,89 @@
 
 				//Slider to zoom in and out of the grid
 				$( "#slider" ).slider({
-					value:50,
+					value:100,
+					min: 50,
 					slide: function( event, ui ) {
-						//Zoom the grid with a zoom of 1 achieved for a slider value of 50
-						$('#contentTable').css({ transform: 'scale(' + (1+(ui.value-50)/100) + ')' });
+						//Zoom the grid with a zoom of 1 achieved for a slider value of 100
+						//Scalind down to 50% of the riginal size
+						$('#playGrid').css({ transform: 'scale(' + (ui.value/100) + ')' });
+						//Same for the clues
+						$('#paddingClues').css({ transform: 'scale(' + (ui.value/100) + ')' });
+						$('#verticalClues').css({ transform: 'scale(' + (ui.value/100) + ')' });
+						$('#horizontalClues').css({ transform: 'scale(' + (ui.value/100) + ')' });
 					}
 				});
 			})
 
 			function buildGrid(){
+
+				//Create the padding zone to set he clues and grid positon
+				var verticalCluesMaxLength = 0;
+				vertical.forEach(function(clue){
+					if (clue.length > verticalCluesMaxLength){
+						verticalCluesMaxLength=clue.length;
+					}
+				})
+				var horizontalCluesMaxLength = 0;
+				horizontal.forEach(function(clue){
+					if (clue.length > horizontalCluesMaxLength){
+						horizontalCluesMaxLength=clue.length;
+					}
+				})
+
+				for (var i = verticalCluesMaxLength - 1; i >= 0; i--) {
+					paddingRow = $("<div>").addClass("clueRow");
+					for (var j = horizontalCluesMaxLength - 1; j >= 0; j--) {
+						paddingRow.append($("<div>").addClass("clue"));
+					};
+					$("#paddingClues").append(paddingRow);
+				};
+
+
 				//Create the first row of clues
 				// var firstRow = $("<tr>");
 
 				// firstRow.append($("<td>").addClass("clue").append($("<div>").addClass("content")));
 
-				// vertical.forEach(function(clue,index){
-				// 	var clueCell = $("<td>").addClass("clue").append($("<div>").addClass("content").html(clue.join("<br>")))
-				// 	firstRow.append(clueCell);
-				// })
+				vertical.forEach(function(clue,index){
+					horizontalCluesColumn = $("<div>").addClass("clueColumn");
+					clue.forEach(function(value){
+						horizontalCluesColumn.append($("<div>").addClass("clue").html(value))
+					});
+					$("#verticalClues").append(horizontalCluesColumn);
+				})
 
-				// $("#contentTable").append(firstRow);
+				// $("#playGrid").append(firstRow);
 
 				//Create all subsequent rows with horizontal clues
 				horizontal.forEach(function(clue,index){
-					row = $("<tr>");
-					// row.append($("<td>").addClass("clue").append($("<div>").addClass("content").html(clue.join(" "))));
+					horizontalCluesRow = $("<div>").addClass("clueRow");
+					clue.forEach(function(value){
+						horizontalCluesRow.append($("<div>").addClass("clue").html(value))
+					});
+					$("#horizontalClues").append(horizontalCluesRow);
+
+					gridRow = $("<tr>");
 					for (var i = vertical.length - 1; i >= 0; i--) {
-						row.append($("<td>").append($("<div>").addClass("content")))
+						gridRow.append($("<td>").append($("<div>").addClass("content")));
 					};
-					$("#contentTable").append(row);
+					$("#playGrid").append(gridRow);
 				})
 
-
-				$("#contentTable td:not(.clue)").each(function(index, cell){
+				//Change the status of a grid cell on click action
+				$("#playGrid td:not(.clue)").each(function(index, cell){
 					$(cell).toggleClass( "unknown" );
 					$(cell).click(function(){
 						changeStatus($(cell));
 					})
 				});
 
+				//Strikethrough a clue cell on click
+				$(".clue").each(function(index, cell){
+					$(cell).click(function(){
+						$(cell).toggleClass("strikediag");
+					})
+				});
 
 				$("#log").html('Grid built');
 			}
@@ -82,7 +126,7 @@
 
 			function saveGrid(){
 				savedGrid = [];
-				$("#contentTable tr").each(function(indexRow, row){
+				$("#playGrid tr").each(function(indexRow, row){
 					var savedRow =[];
 					$(row).find("td").each(function(indexCell, cell){
 						savedRow.push(cell.className);
@@ -93,7 +137,7 @@
 			}
 
 			function loadGrid(){
-				$("#contentTable tr").each(function(indexRow, row){
+				$("#playGrid tr").each(function(indexRow, row){
 					$(row).find("td").each(function(indexCell, cell){
 						$(cell).removeClass();
 						$(cell).toggleClass(savedGrid[indexRow][indexCell]);
@@ -103,7 +147,7 @@
 			}
 
 			function cleanGrid(){
-				$("#contentTable td:not(.clue)").each(function(index, cell){
+				$("#playGrid td:not(.clue)").each(function(index, cell){
 					$(cell).removeClass();
 					$(cell).toggleClass( "unknown" );
 				})
@@ -120,8 +164,16 @@
 		
 		<p id="log"></p>
 
-		<table id="contentTable">
-		</table>
+		<div id="tablesContainer">
+			<div>
+				<div id="paddingClues"></div>
+				<div id="verticalClues"></div>
+			</div>
+			<div>
+				<div id="horizontalClues"></div>
+				<table id="playGrid"></table>
+			</div>
+		</div>
 
 		<style>
 
@@ -142,62 +194,126 @@
 						width: 100px;
 					}
 
-				#contentTable{
-					transform-origin: top left;
+				#tablesContainer{
+				    display: flex;
+				    flex-direction: column;
 				}
 
-				table{
-					border-collapse: collapse;
-					width: 90%;
-				}
+					#tablesContainer>div{
+					    display: flex;
+					}
 
-				td{
-					border: dotted 1px white;
-					cursor: pointer;
-	  				position: relative;
-				}
+					.clue{
+						border: solid 1px black;
+						cursor: pointer;
+		  				text-align: center;
+		  				/*magic numbers*/
+		  				width: 32px;
+	  				    height: 32.05px;
+						line-height: 32.05px;
+					}
 
-				td:after {
-				  	content: '';
-				  	display: block;
-				  	margin-top: 100%;
-				}
+						.clue.strikediag {
+						  	background: linear-gradient(to left top, transparent 47.75%, currentColor 49.5%, currentColor 50.5%, transparent 52.25%);
+						}
 
-				td .content{
-				  	position: absolute;
-				  	top: 0;
-				  	bottom: 0;
-				  	left: 0;
-				  	right: 0;
-				}
+					#paddingClues{
+						display: flex;
+						flex-direction: column;
+						justify-content: flex-end;
+						transform-origin: bottom right;
+					}
+						#paddingClues .clueRow{
+							display: flex;
+							flex-direction: row;
+							justify-content: flex-end;
+						}
 
-				td:nth-child(5n){
-					border-right: solid 1px black;
-				}
+							#paddingClues .clue{
+								border: none;
+							}
 
-				td:nth-child(1){
-					border-left: solid 1px black;
-				}
+					#verticalClues{
+						display: flex;
+						flex-direction: row;
+						justify-content: flex-end;
+						transform-origin: bottom left;
+					}
 
-				tr:nth-child(5n) td{
-					border-bottom: solid 1px black;
-				}
+						#verticalClues .clueColumn{
+							display: flex;
+							flex-direction: column;
+							justify-content: flex-end;
+						}
 
-				tr:nth-child(1) td{
-					border-top: solid 1px black;
-				}
+					#horizontalContainer{
+						display: flex;
+					}
 
-				.unknown{
-					background-color: silver;
-				}
+						#horizontalClues{
+							display: flex;
+							flex-direction: column;
+							transform-origin: top right;
+						}
+							#horizontalClues .clueRow{
+								display: flex;
+								flex-direction: row;
+								justify-content: flex-end;
+							}
 
-				.full{
-					background-color: black;
-				}
+						#playGrid{
+							transform-origin: top left;
+							border-collapse: collapse;
+							width: 90%;
+						}
 
-				.empty{
-					background-color: white;
-				}
+							#playGrid td{
+								border: dotted 1px white;
+								cursor: pointer;
+				  				position: relative;
+							}
+
+							#playGrid td:after {
+							  	content: '';
+							  	display: block;
+							  	margin-top: 100%;
+							}
+
+							#playGrid td .content{
+							  	position: absolute;
+							  	top: 0;
+							  	bottom: 0;
+							  	left: 0;
+							  	right: 0;
+							}
+
+							#playGrid td:nth-child(5n){
+								border-right: solid 1px black;
+							}
+
+							#playGrid td:nth-child(1){
+								border-left: solid 1px black;
+							}
+
+							#playGrid tr:nth-child(5n) td{
+								border-bottom: solid 1px black;
+							}
+
+							#playGrid tr:nth-child(1) td{
+								border-top: solid 1px black;
+							}
+
+							#playGrid td.unknown{
+								background-color: silver;
+							}
+
+							#playGrid td.full{
+								background-color: black;
+							}
+
+							#playGrid td.empty{
+								background-color: white;
+							}
 		</style>
 	</body>
 </html>
