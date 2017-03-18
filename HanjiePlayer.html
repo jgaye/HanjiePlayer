@@ -94,12 +94,9 @@
 					$("#playGrid").append(gridRow);
 				})
 
-				//Change the status of a grid cell on click action
+				//Initialize the cells to unknown class
 				$("#playGrid td:not(.clue)").each(function(index, cell){
 					$(cell).toggleClass( "unknown" );
-					$(cell).click(function(){
-						changeStatus($(cell));
-					})
 				});
 
 				//Strikethrough a clue cell on click
@@ -108,6 +105,27 @@
 						$(cell).toggleClass("strikediag");
 					})
 				});
+
+				//DRAWING MODE
+				//Activate the drawing mode on mouse down wherever on the page
+				//Add a listener to change the cell status on mouseenter
+				//That means the cell you clik on to start drawing mode will not
+				//change status
+				$("body").mousedown(function(){
+					$("#playGrid td").each(function(index, cell){
+						$(cell).mouseenter(function(){
+							changeStatus($(cell));
+						})
+					})
+				})
+
+				//Stop the drawing mode on mouse up
+				//By removing the mouserover listener
+				$("body").mouseup(function(){
+					$("#playGrid td").each(function(index, cell){
+						$(cell).unbind('mouseenter');
+					})
+				})
 
 				$("#log").html('Grid built');
 			}
