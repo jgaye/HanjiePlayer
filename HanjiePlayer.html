@@ -95,8 +95,12 @@
 				})
 
 				//Initialize the cells to unknown class
+				//And the simple click and change status
 				$("#playGrid td:not(.clue)").each(function(index, cell){
 					$(cell).toggleClass( "unknown" );
+					$(cell).mousedown(function(){
+						changeStatus($(cell));
+					})
 				});
 
 				//Strikethrough a clue cell on click
